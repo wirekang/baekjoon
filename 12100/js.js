@@ -35,7 +35,6 @@ function setBoard(preBoard) {
 }
 
 function recursive(n, direction) {
-	const preBoard = Array.from(board)
 	switch (direction) {
 		case right:
 			doRight()
@@ -57,11 +56,14 @@ function recursive(n, direction) {
 		return
 	}
 
+	const preBoard = Array.from(board)
 	recursive(n, right)
-	recursive(n, up)
-	recursive(n, left)
-	recursive(n, down)
 	setBoard(preBoard)
+	recursive(n, up)
+	setBoard(preBoard)
+	recursive(n, left)
+	setBoard(preBoard)
+	recursive(n, down)
 }
 
 function doRight() {
@@ -144,8 +146,12 @@ function makePositive() {
 	}
 }
 
+const initBoard = Array.from(board)
 recursive(0, right)
+setBoard(initBoard)
 recursive(0, up)
+setBoard(initBoard)
 recursive(0, left)
+setBoard(initBoard)
 recursive(0, down)
 console.log(max)
