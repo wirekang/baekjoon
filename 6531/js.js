@@ -1,5 +1,3 @@
-const regSet = /^{(.*)}$/
-
 ;(() => {
 	const fs = require("fs")
 	const lines = fs.readFileSync("/dev/stdin").toString().split("\n")
@@ -11,8 +9,19 @@ const regSet = /^{(.*)}$/
 })()
 
 function isSet(str) {
-	const match = regSet.exec(str)
-	return match !== null && isElementList(match[1])
+	if (str === "{}") {
+		return true
+	}
+
+	if (str[0] !== "{") {
+		return false
+	}
+
+	if (str[str.length - 1] !== "}") {
+		return false
+	}
+
+	return isElementList(str.slice(1, str.length - 1))
 }
 
 function isElementList(str) {
@@ -22,11 +31,12 @@ function isElementList(str) {
 function isList(str) {
 	let comma = str
 	while (true) {
-		if (comma.length === 1) {
+		const l = comma.length
+		if (l === 1) {
 			return isAtom(comma)
 		}
 
-		if (comma.length > 2 && comma[0] === "," && comma[1] === ",") {
+		if (comma[0] === "," && comma[1] === ",") {
 			comma = comma.slice(2)
 			continue
 		}
