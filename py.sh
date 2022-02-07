@@ -1,19 +1,15 @@
 #!/bin/bash
 dir=$(dirname $(realpath $0))
-pDir=$dir/$PROBLEM
+pDir=$dir/$PROB
 
 out="$(cat $pDir/in | python $pDir/python.py)"
 rOut="$(cat $pDir/out)"
 
-echo "Problem : $PROBLEM"
+echo "Problem : $PROB"
 echo "Language: Python"
 
-if [[ "$out" == "$rOut" ]]; then
-  echo "PASS"
-else
-  echo "FAIL"
-  echo "----"
-  echo "$out"
-  echo "----"
-  echo "$rOut"
-fi
+echo "----expect"
+echo "$rOut"
+echo "----actual"
+echo "$out"
+echo "----"
